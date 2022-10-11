@@ -11,10 +11,17 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
+
+    public function indexAll()
+    {
+        $products = Product::all();
+        $category = Categories::all();
+        return view('comercial-allProducts',compact(['products','category']));
+    }
     public function Index()
     {
         $products = Product::where('seller_id',Auth()->id())->get();
-        return view('dashboard.products.products-list',compact('products'));
+        return view('dashboard.products.products-list',compact(['products']));
     }
 
     public function Add()
@@ -43,7 +50,7 @@ class ProductsController extends Controller
         // @dd($validate);
         if($request->hasFile('image'))
         {
-            $validate['image'] = $request->file('image')->store('product-image');
+            $validate['image'] = $request->file('image')->store($request->name);
         }
         Product::create($validate);
         return redirect('product-list')->with('status','Product Added Succesfully');
@@ -78,7 +85,7 @@ class ProductsController extends Controller
             {
                 Storage::delete($request->oldimage);
             }
-            $validate['image'] = $request->file('image')->store('product-image');
+            $validate['image'] = $request->file('image')->store($request->image);
         }
         $product = Product::find($id);
         $product->Update();

@@ -16,6 +16,5 @@ class Orders extends Model
     {
         return $this->HasMany(Items::class);
     }
-
 }
 

@@ -15,7 +15,7 @@ class ComercialController extends Controller
         return view('comercial-index',compact(['products','categories']));
     }
 
-    public function Details($slug)
+    public function Details(Request $request, $slug)
     {
         $product = Product::where('slug',$slug)->first();
         return view('comercial-details',compact(['product']));

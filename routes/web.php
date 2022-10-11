@@ -34,7 +34,7 @@ Route::get('contact-us', function () {
 Route::get('return-policy', function () {
     return view('comercial-return-policy');
 });
-Route::get('shop',[ProductsController::class,'index']);
+Route::get('shop',[ProductsController::class,'indexAll']);
 
 Route::middleware(['auth'])->group(function(){
     //User Interface

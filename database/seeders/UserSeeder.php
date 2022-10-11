@@ -23,6 +23,14 @@ class UserSeeder extends Seeder
         ]);
         $admin->assignRole('admin');
 
+        //seed seller
+        $seller = User::create([
+            'name' => 'dewa',
+            'email' => 'dewa@gmail.com',
+            'password' => bcrypt('asdf;lkj')
+        ]);
+        $seller->assignRole('seller');
+
         //seed user
         $user = User::create([
             'name' => 'raja',
@@ -31,12 +39,6 @@ class UserSeeder extends Seeder
         ]);
         $user->assignRole('user');
 
-        //seed seller
-        $seller = User::create([
-            'name' => 'dewa',
-            'email' => 'dewa@gmail.com',
-            'password' => bcrypt('asdf;lkj')
-        ]);
-        $seller->assignRole('seller');
+
     }
 }

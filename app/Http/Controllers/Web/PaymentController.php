@@ -35,6 +35,7 @@ class PaymentController extends Controller
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-        dd($snapToken);
+        // dd($snapToken);
+        // return view
     }
 }

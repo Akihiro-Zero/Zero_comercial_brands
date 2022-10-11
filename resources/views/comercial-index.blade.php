@@ -7,16 +7,18 @@
     <!--MAIN SLIDE-->
 			<div class="wrap-main-slide">
 				<div class="slide-carousel owl-carousel style-nav-1" data-items="1" data-loop="1" data-nav="true" data-dots="false">
-					<div class="item-slide">
-						<img src="assets/images/main-slider-1-1.jpg" alt="" class="img-slide">
-						<div class="slide-info slide-1">
-							<h2 class="f-title">Kid Smart <b>Watches</b></h2>
-							<span class="subtitle">Compra todos tus productos Smart por internet.</span>
-							<p class="sale-info">Only price: <span class="price">$59.99</span></p>
-							<a href="#" class="btn-link">Shop Now</a>
-						</div>
-					</div>
-					<div class="item-slide">
+					@foreach ($categories as $category)
+                        <div class="item-slide">
+                            <img src="{{ asset('storage/'.$category->image) }}" alt="" class="img-slide">
+                            <div class="slide-info slide-1">
+                                <h2 class="f-title"><b>{{ $category->name }}</b></h2>
+                                <span class="subtitle">{{ $category->description }}</span>
+                                <p class="sale-info"> <span class="price"></span></p>
+                                <a href="#" class="btn-link">Shop Now</a>
+                            </div>
+                        </div>
+                    @endforeach
+					{{-- <div class="item-slide">
 						<img src="assets/images/main-slider-1-2.jpg" alt="" class="img-slide">
 						<div class="slide-info slide-2">
 							<h2 class="f-title">Extra 25% Off</h2>
@@ -34,26 +36,28 @@
 							<p class="sale-info">Stating at: <b class="price">$225.00</b></p>
 							<a href="#" class="btn-link">Shop Now</a>
 						</div>
-					</div>
+					</div> --}}
 				</div>
 			</div>
 
 			<!--BANNER-->
 			<div class="wrap-banner style-twin-default">
-				<div class="banner-item">
-					<a href="#" class="link-banner banner-effect-1">
-						<figure><img src="assets/images/home-1-banner-1.jpg" alt="" width="580" height="190"></figure>
-					</a>
-				</div>
-				<div class="banner-item">
+                @foreach ($categories as $category)
+                    <div class="banner-item">
+                        <a href="#" class="link-banner banner-effect-1">
+                            <figure><img src="{{ asset('storage/'.$category->image) }}" alt="" width="580" height="190"></figure>
+                        </a>
+                    </div>
+                @endforeach
+				{{-- <div class="banner-item">
 					<a href="#" class="link-banner banner-effect-1">
 						<figure><img src="assets/images/home-1-banner-2.jpg" alt="" width="580" height="190"></figure>
 					</a>
-				</div>
+				</div> --}}
 			</div>
 
 			<!--On Sale-->
-			<div class="wrap-show-advance-info-box style-1 has-countdown">
+			{{-- <div class="wrap-show-advance-info-box style-1 has-countdown">
 				<h3 class="title-box">On Sale</h3>
 				<div class="wrap-countdown mercado-countdown" data-expire="2020/12/12 12:34:56"></div>
 				<div class="wrap-products slide-carousel owl-carousel style-nav-1 equal-container " data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"2"},"768":{"items":"3"},"992":{"items":"4"},"1200":{"items":"5"}}'>
@@ -203,7 +207,7 @@
 					</div>
 
 				</div>
-			</div>
+			</div> --}}
 
 			<!--Latest Products-->
 			<div class="wrap-show-advance-info-box style-1">
@@ -223,7 +227,7 @@
                                         <div class="product product-style-2 equal-elem ">
                                             <div class="product-thumnail">
                                                 <a href="{{ url('product-details/'.$product->slug) }}" title="{{ $product->name }}">
-                                                    <figure><img src="{{ asset('storage/'.$product->image) }}" width="800" height="800" alt="{{ $product->name }}"></figure>
+                                                    <figure><img src="{{ asset('storage/product-image/'.$product->image) }}" width="800" height="800" alt="{{ $product->name }}"></figure>
                                                 </a>
                                                 <div class="group-flash">
                                                     <span class="flash-item new-label">new</span>

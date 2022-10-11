@@ -69,7 +69,7 @@
 						<h4 class="title-box">Payment Method</h4>
 						<p class="summary-info"><span class="title">Check / Money order</span></p>
 						<p class="summary-info"><span class="title">Credit Cart (saved)</span></p>
-						<div class="choose-payment-methods">
+						{{-- <div class="choose-payment-methods">
 							<label class="payment-method">
 								<input name="payment-method" id="payment-method-bank" value="bank" type="radio">
 								<span>Direct Bank Transder</span>
@@ -86,7 +86,7 @@
 								<span class="payment-desc">You can pay with your credit</span>
 								<span class="payment-desc">card if you don't have a paypal account</span>
 							</label>
-						</div>
+						</div> --}}
                         {{-- @foreach ($cart as $carts)
 
                         <p>{{ $carts->product->name}}</p>
@@ -100,10 +100,21 @@
                             // $product = App\Models\Product::find($carts->id);
                             $total = $total + $carts->product->price * $carts->prod_qty
                         @endphp
-                            <p>{{ $carts->product->price }}</p>
+                            {{-- <p>{{ $carts->product->price }}</p> --}}
                         @endforeach
 						<p class="summary-info grand-total"><span>Grand Total</span> <span class="grand-total-price">Rp. {{ $total }}</span></p>
-						<a href="{{ url('order-payment') }}" class="btn btn-medium">Place Order In COD</a>
+						<a href="{{ route('order-payment') }}" class="btn btn-medium"
+                            onclick="event.preventDefault();
+                            document.getElementById('order-payment').submit();"
+                            >Place Order In COD
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                            <input type="hidden" name="" value="{{ $total }}">
+                            <input type="hidden" name="" value="{{ $user->id }}">
+                            <input type="hidden" name="" value="{{ $total }}">
+                            <input type="hidden" name="" value="{{ $total }}">
+                        </form>
                             <hr>
                         <button class="btn btn-medium" id="pay-button">Bayar Dengan Mid-Trans</button>
 
@@ -113,10 +124,10 @@
                         <script type="text/javascript">
                             var payButton = document.getElementById('pay-button');
                             payButton.addEventListener('click', function () {
-                                snap.pay('');
+                                snap.pay('<?=$snapToken ?>');
                             });
 
-                            snap.pay('', {
+                            snap.pay('<?=$snapToken ?>', {
                             onSuccess: function(result){console.log('success');console.log(result);},
                             onPending: function(result){console.log('pending');console.log(result);},
                             onError: function(result){console.log('error');console.log(result);},

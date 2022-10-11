@@ -23,14 +23,14 @@
                         <div class="detail-media">
                             <div class="product-gallery">
                             <ul class="slides">
-                                <li data-thumb="{{ asset('storage/'.$product->image) }}">
-                                    <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
+                                <li data-thumb="{{ asset('storage/product-image/'.$product->image) }}">
+                                    <img src="{{ asset('storage/product-image/'.$product->image) }}" alt="product thumbnail" />
                                 </li>
-                                <li data-thumb="{{ asset('storage/'.$product->image) }}">
-                                    <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
+                                <li data-thumb="{{ asset('storage/product-image/'.$product->image) }}">
+                                    <img src="{{ asset('storage/product-image/'.$product->image) }}" alt="product thumbnail" />
                                 </li>
-                                <li data-thumb="{{ asset('storage/'.$product->image) }}">
-                                    <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
+                                <li data-thumb="{{ asset('storage/product-image/'.$product->image) }}">
+                                    <img src="{{ asset('storage/product-image/'.$product->image) }}" alt="product thumbnail" />
                                 </li>
                             </ul>
                             </div>

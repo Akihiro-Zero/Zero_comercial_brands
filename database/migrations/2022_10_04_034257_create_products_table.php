@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('weight');
             $table->longText('price');
             $table->integer('cate_id');
+            $table->integer('seller_id');
             $table->string('dimension');
             $table->longText('description');
             $table->string('status')->default('false');
