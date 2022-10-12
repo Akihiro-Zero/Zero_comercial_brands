@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductDetailResource;
+use App\Http\Resources\ProductDetails;
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -14,8 +18,22 @@ class ProductsController extends Controller
      */
     public function product()
     {
-        return response()->json();
+        // return new ProductResource(Product::get());
+        $product = Product::get();
+        return ProductResource::collection($product);
     }
+
+    public function productDetails($slug)
+    {
+        return new ProductDetailResource(Product::where('slug',$slug)->first());
+    }
+
+    public function productSeller()
+    {
+
+    }
+
+    // public function
 
     /**
      * Store a newly created resource in storage.

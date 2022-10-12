@@ -71,6 +71,6 @@ class RegisterController extends Controller
         ]);
 
         $user->assignRole('user');
-        return $user;
+        return response()->json(['status' => 'Account Created']);
     }
 }
