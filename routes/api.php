@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,10 +16,37 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::post('logout', 'logout');
+    Route::post('refresh', 'refresh');
+});
+
 Route::get('products',[ProductsController::class,'product']);
 Route::get('products/{slug}',[ProductsController::class,'productDetails']);
-Route::post('login',[AuthController::class,'login']);
+// Route::post('login',[AuthController::class,'login']);
 
+Route::controller(DashboardController::class)->group(function(){
+    //Api User
+    Route::patch('userApi-update','userUpdate');
+    Route::patch('userApi-update-seller','userToSeller');
+
+    //Api Product
+    Route::get('productApi-search','productSearch');
+    Route::get('productApi-list','productSeller');
+    Route::get('productApi-details/{id}','productSellerShow');
+    Route::put('productApi-add','productStore');
+    Route::patch('productApi-edit/{id}','productUpdate');
+    Route::delete('productApi-delete/{id}','productDestroy');
+
+    //Api Category
+    Route::get('categoryApi-list','categoryList');
+    Route::get('categoryApi-detail/{id}','categoryShow');
+    Route::post('categoryApi-add','categoryAdd');
+    Route::post('categoryApi-update/{id}','categoryUpdate');
+    Route::delete('categoryApi-delete/{id}','categoryDestroy');
+});
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

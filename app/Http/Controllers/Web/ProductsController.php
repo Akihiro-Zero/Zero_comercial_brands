@@ -100,6 +100,6 @@ class ProductsController extends Controller
             Storage::delete($delete->image);
         }
         Product::destroy($id);
-        return redirect('product-list')->with('status','Product Deleted');
+        return response()->json(['status' => 'Product Deleted']);
     }
 }

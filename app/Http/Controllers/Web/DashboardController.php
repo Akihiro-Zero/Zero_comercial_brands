@@ -61,7 +61,7 @@ class DashboardController extends Controller
 
     public function sellerUpdate(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $user->shop_name = $request->shop_name;
         $user->shop_slug = Str::slug($request->shop_name);
         $user->rekening = $request->rekening;

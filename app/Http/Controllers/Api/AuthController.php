@@ -7,40 +7,87 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function signup(Request $request)
+    public function __construct()
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:6'
-        ]);
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'email_verified_at' => Carbon::now()
-        ]);
-        $user->assignRole('user');
-        return response()->json([
-            'message' => 'Registration Successful. Please log in to your account'
-        ], 201);
+        $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
     public function login(Request $request)
     {
+        // return $request;
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
-            'remember_me' => 'boolean'
         ]);
-        $credentials = request(['email', 'password']);
-        if (!Auth::attempt($credentials))
-            return response()->json(['message' => 'Unauthorized'], 401);
-        $user = $request->user();
-        $tokenResult = $user->createToken('Personal Access Token');
-        return $this->loginSuccess($tokenResult, $user);
+        $credentials = $request->only('email', 'password');
+
+        $token = Auth::attempt($credentials);
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $user = Auth::user();
+        return response()->json([
+                'status' => 'success',
+                'user' => $user,
+                'authorisation' => [
+                    'token' => $token,
+                    'type' => 'bearer',
+                ]
+            ]);
+
+    }
+
+    public function register(Request $request){
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        $user->assignRole('user');
+        $token = Auth::login($user);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User created successfully',
+            'user' => $user,
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
+        ]);
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully logged out',
+        ]);
+    }
+
+    public function refresh()
+    {
+        return response()->json([
+            'status' => 'success',
+            'user' => Auth::user(),
+            'authorisation' => [
+                'token' => Auth::refresh(),
+                'type' => 'bearer',
+            ]
+        ]);
     }
 }
