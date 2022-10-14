@@ -10,9 +10,10 @@ class ComercialController extends Controller
 {
     public function Index()
     {
-        $products = Product::latest()->get();
-        $categories = Categories::all();
-        return view('comercial-index',compact(['products','categories']));
+        $product = Product::all();
+        $products = Product::orderBy('id','desc')->get();
+        $category = Categories::all();
+        return view('comercial-index',compact(['product','products','category']));
     }
 
     public function Details(Request $request, $slug)

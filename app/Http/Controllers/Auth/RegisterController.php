@@ -70,8 +70,9 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        $user = Role::findByName('user','api');
+        // $user = Role::findByName('user','api');
         $user->assignRole('user');
+        return redirect('/');
         return response()->json(['status' => 'Account Created']);
     }
 }

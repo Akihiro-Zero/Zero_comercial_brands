@@ -12,8 +12,15 @@ use Illuminate\Support\Facades\Storage;
 class ProductsController extends Controller
 {
 
-    public function indexAll()
+    public function indexAll(Request $request)
     {
+        if($request->search == true)
+        {
+            $products = Product::where("name","LIKE","%$request->search%")->get();
+            $category = Categories::all();
+         return view('comercial-allProducts',compact(['products','category']));
+
+        }
         $products = Product::all();
         $category = Categories::all();
         return view('comercial-allProducts',compact(['products','category']));

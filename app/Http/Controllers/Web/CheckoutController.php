@@ -51,13 +51,13 @@ class CheckoutController extends Controller
         /**
          *
          */
-        $oldcarts = Carts::where('user_id',Auth()->id())->get();
-        foreach ($oldcarts as $item)
-        {
-            if(!Product::where('id',$item->prod_id)->where('qty','>=',$item->prod_qty)->exists());
-            $removecart = Carts::where('user_id',Auth()->id())->where('prod_id',$item->prod_id)->first();
-            $removecart->delete();
-        }
+        // $oldcarts = Carts::where('user_id',Auth()->id())->get();
+        // foreach ($oldcarts as $item)
+        // {
+        //     if(!Product::where('id',$item->prod_id)->where('qty','>=',$item->prod_qty)->exists());
+        //     $removecart = Carts::where('user_id',Auth()->id())->where('prod_id',$item->prod_id)->first();
+        //     $removecart->delete();
+        // }
 
     }
 }

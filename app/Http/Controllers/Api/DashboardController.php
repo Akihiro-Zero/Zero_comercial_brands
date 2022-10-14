@@ -15,9 +15,31 @@ use Laravel\Ui\Presets\React;
 class DashboardController extends Controller
 {
 
+    public function userList()
+    {
+        $user = User::where('id',auth()->guard('api')->id())->first();
+        if($user->hasRole('admin'))
+        {
+            $user_list = User::all();
+            return response()->json([
+                'status' => 'succes',
+                'user' => $user_list
+            ]);
+        }
+    }
+
+    public function userDelete($id)
+    {
+        $user = User::where('id',auth()->guard('api')->id())->first();
+        if($user->hasRole('admin'))
+        {
+            User::destroy($id);
+            return response()->json(['status' => 'user deleted']);
+        }
+    }
     public function userUpdate(Request $request)
     {
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
         if($user)
         {
             $user->update($request->all());
@@ -30,8 +52,7 @@ class DashboardController extends Controller
 
     public function userToSeller(Request $request)
     {
-        $user = User::where('id',Auth::id())->first();
-
+        $user = User::where('id',auth()->guard('api')->id())->first();
         if($user)
         {
             $user->shop_name = $request->shop_name;
@@ -40,13 +61,23 @@ class DashboardController extends Controller
             $user->about = $request->about;
             $user->e_ktp = $request->e_ktp;
             $user->bank = $request->bank;
-            if($user->save())
+            if($user->hasRole(['admin','seller']))
             {
-                $user->assignRole('seller');
-                return response()->json(['status' => 'Your Own Shops Updated']);
+                $user->save();
+                return response()->json([
+                    'status' => 'Your Shops Updated Succesfully',
+                    'user' => $user
+                ]);
             }
-            else{
-                return response()->json(['status' => 'Ada yang salah']);
+            else
+            {
+            $user->save();
+            $user->assignRole('seller');
+            return response()->json([
+                'status' => 'Your Shops Updated',
+                'message' => 'you become seller',
+                'user' => $user
+            ]);
             }
         }
     }
@@ -57,10 +88,11 @@ class DashboardController extends Controller
      */
     public function productSeller()
     {
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
+
         if($user->hasRole(['admin','seller']))
         {
-            $product = Product::where('seller_id',Auth::id())->get();
+            $product = Product::where('seller_id',auth()->guard('api')->id())->get();
             // return $product;
             return response()->json([
                 'status' => 'succes',
@@ -77,7 +109,7 @@ class DashboardController extends Controller
      */
     public function Productstore(Request $request)
     {
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
         if($user->hasRole(['admin','seller']))
         {
             $product = new Product;
@@ -115,8 +147,9 @@ class DashboardController extends Controller
      */
     public function productSellerShow($id)
     {
+        // $user = User::where('id',auth()->guard('api')->id())->first();
 
-        $product = Product::where('seller_id',Auth::id())->find($id);
+        $product = Product::where('seller_id',auth()->guard('api')->id())->find($id);
         if ($product)
         {
             return response()->json([
@@ -139,11 +172,12 @@ class DashboardController extends Controller
      */
     public function productUpdate(Request $request, $id)
     {
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
+
         if($user->hasRole(['admin','seller']))
         {
             $product = Product::find($id);
-            if($product->seller_id == Auth::id())
+            if($product->seller_id == auth()->guard('api')->id())
             {
                 $validate = $request->validate([
                     "description" => "nullable",
@@ -187,7 +221,7 @@ class DashboardController extends Controller
     public function productDestroy($id)
     {
         $product = Product::find($id);
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
         if($user->hasRole(['admin','seller']))
         {
             if($product->seller_id == $user->id)
@@ -213,7 +247,7 @@ class DashboardController extends Controller
 
     public function categoryList()
     {
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
         if($user->hasRole('admin'))
         {
             $category = Categories::all();
@@ -229,7 +263,8 @@ class DashboardController extends Controller
     }
     public function categoryShow($id)
     {
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
+
         if(!$user->hasRole('admin'))
         {
             return response()->json(['message' => 'You Are Not Admin']);
@@ -243,7 +278,7 @@ class DashboardController extends Controller
 
     public function categoryAdd(Request $request)
     {
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
         if(!$user->hasRole('admin'))
         {
             return response()->json(['message' => 'You Are Not Admin']);
@@ -264,9 +299,9 @@ class DashboardController extends Controller
     public function categoryUpdate(Request $request,$id)
     {
         //
-        return $request;
+        // return $request;
         //
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
         if(!$user->hasRole('admin'))
         {
             return response()->json(['message' => 'You Are Not Admin']);
@@ -292,7 +327,7 @@ class DashboardController extends Controller
 
     public function categoryDestroy($id)
     {
-        $user = User::where('id',Auth::id())->first();
+        $user = User::where('id',auth()->guard('api')->id())->first();
         if(!$user->hasRole('admin'))
         {
             return response()->json(['message' => 'You Are Not Admin']);

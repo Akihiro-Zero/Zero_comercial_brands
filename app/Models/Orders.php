@@ -12,6 +12,12 @@ class Orders extends Model
     protected $table = 'orders';
     protected $guarded = ['id'];
 
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class,'prod_id','id');
+    }
+
     public function item()
     {
         return $this->HasMany(Items::class);

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('lastname')->nullable();
             $table->string('address')->nullable();
             $table->string('country')->nullable();
-            $table->integer('price');
+            $table->string('price');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('city')->nullable();

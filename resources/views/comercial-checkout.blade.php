@@ -8,6 +8,15 @@
     <!--main area-->
 	<main id="main" class="main-site">
 
+        @php
+        $total = 0
+        @endphp
+        @foreach ($cart as $carts)
+        @php
+            $total = $total + $carts->product->price * $carts->prod_qty
+        @endphp
+        @endforeach
+
 		<div class="container">
 
 			<div class="wrap-breadcrumb">
@@ -19,38 +28,38 @@
 			<div class=" main-content-area">
 				<div class="wrap-address-billing">
 					<h3 class="box-title">Billing Address</h3>
-					<form action="#" method="POST" name="frm-billing">
-						<p class="row-in-form">
+					<form action="{{ route('order-cod') }}" method="POST" name="frm-billing" id="order-form">
+                        <p class="row-in-form">
 							<label for="fname">first name<span>*</span></label>
-							<input id="fname" type="text" name="firstname" value="{{ $user->firstname }}" placeholder="Your name">
+							<input id="fname" required type="text" name="firstname" value="{{ $user->firstname }}" placeholder="Your name">
 						</p>
 						<p class="row-in-form">
 							<label for="lname">last name<span>*</span></label>
-							<input id="lname" type="text" name="lastname" value="{{ $user->lastname }}" placeholder="Your last name">
+							<input id="lname" required type="text" name="lastname" value="{{ $user->lastname }}" placeholder="Your last name">
 						</p>
 						<p class="row-in-form">
 							<label for="email">Email Addreess:</label>
-							<input id="email" type="email" name="email" value="{{ $user->email }}" placeholder="Type your email">
+							<input id="email" required type="email" name="email" value="{{ $user->email }}" placeholder="Type your email">
 						</p>
 						<p class="row-in-form">
 							<label for="phone">Phone number<span>*</span></label>
-							<input id="phone" type="number" name="phone" value="{{ $user->phone }}" placeholder="10 digits format">
+							<input id="phone" required type="number" name="phone" value="{{ $user->phone }}" placeholder="10 digits format">
 						</p>
 						<p class="row-in-form">
 							<label for="add">Address:</label>
-							<input id="add" type="text" name="adress" value="{{ $user->adress }}" placeholder="Street at apartment number">
+							<input id="add" required type="text" name="adress" value="{{ $user->adress }}" placeholder="Street at apartment number">
 						</p>
 						<p class="row-in-form">
 							<label for="country">Country<span>*</span></label>
-							<input id="country" type="text" name="country" value="{{ $user->country }}" placeholder="United States">
+							<input id="country" required type="text" name="country" value="{{ $user->country }}" placeholder="United States">
 						</p>
 						<p class="row-in-form">
 							<label for="zip-code">Postcode / ZIP:</label>
-							<input id="zip-code" type="number" name="postcode" value="{{ $user->postcode }}" placeholder="Your postal code">
+							<input id="zip-code" required type="number" name="postcode" value="{{ $user->postcode }}" placeholder="Your postal code">
 						</p>
 						<p class="row-in-form">
 							<label for="city">Town / City<span>*</span></label>
-							<input id="city" type="text" name="city" value="{{ $user->city }}" placeholder="City name">
+							<input id="city" required type="text" name="city" value="{{ $user->city }}" placeholder="City name">
 						</p>
 						{{-- <p class="row-in-form fill-wife">
 							<label class="checkbox-field">
@@ -62,6 +71,8 @@
 								<span>Ship to a different address?</span>
 							</label>
 						</p> --}}
+                        <input type="hidden" name="total_price" value="{{ $total }}">
+						@csrf
 					</form>
 				</div>
 				<div class="summary summary-checkout">
@@ -92,33 +103,23 @@
                         <p>{{ $carts->product->name}}</p>
                         @endforeach --}}
                         {{-- @dd($carts) --}}
-                        @php
-                            $total = 0
-                        @endphp
-                        @foreach ($cart as $carts)
-                        @php
-                            // $product = App\Models\Product::find($carts->id);
-                            $total = $total + $carts->product->price * $carts->prod_qty
-                        @endphp
-                            {{-- <p>{{ $carts->product->price }}</p> --}}
-                        @endforeach
+
 						<p class="summary-info grand-total"><span>Grand Total</span> <span class="grand-total-price">Rp. {{ $total }}</span></p>
-						<a href="{{ route('order-payment') }}" class="btn btn-medium"
+						<a href="{{ route('order-cod') }}" class="btn btn-medium"
                             onclick="event.preventDefault();
-                            document.getElementById('order-payment').submit();"
+                            document.getElementById('order-form').submit();"
                             >Place Order In COD
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        {{-- <form id="order-form" action="{{ route('order-cod') }}" method="POST" class="d-none">
                             @csrf
-                            <input type="hidden" name="" value="{{ $total }}">
-                            <input type="hidden" name="" value="{{ $user->id }}">
-                            <input type="hidden" name="" value="{{ $total }}">
-                            <input type="hidden" name="" value="{{ $total }}">
-                        </form>
+                            <input type="hidden" name="price" value="{{ $total }}">
+                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+
+                        </form> --}}
                             <hr>
                         <button class="btn btn-medium" id="pay-button">Bayar Dengan Mid-Trans</button>
 
-                        <script type="text/javascript"
+                        {{-- <script type="text/javascript"
                         src="https://app.sandbox.midtrans.com/snap/snap.js"
                         data-client-key="SB-Mid-client-ENZ7pixlAw-XO53s"></script>
                         <script type="text/javascript">
@@ -133,7 +134,7 @@
                             onError: function(result){console.log('error');console.log(result);},
                             onClose: function(){console.log('customer closed the popup without finishing the payment');}
                             })
-                        </script>
+                        </script> --}}
                     </div>
 					{{-- <div class="summary-item shipping-method">
 						<h4 class="title-box f-title">Shipping method</h4>

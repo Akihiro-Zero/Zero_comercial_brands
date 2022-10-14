@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CheckoutingController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ProductsController;
 use Illuminate\Http\Request;
@@ -27,7 +28,19 @@ Route::get('products',[ProductsController::class,'product']);
 Route::get('products/{slug}',[ProductsController::class,'productDetails']);
 // Route::post('login',[AuthController::class,'login']);
 
+
+
+Route::controller(CheckoutingController::class)->group(function(){
+    Route::get('cartApi-list','cartIndex');
+    Route::post('add-cart','cartStore');
+    Route::delete('cartApi-destroy/{id}','cartDestroy');
+});
+
+
 Route::controller(DashboardController::class)->group(function(){
+    //Api Admin
+    Route::get('userApi-list','userList');
+    Route::delete('userApi-delete/{id}','userDelete');
     //Api User
     Route::patch('userApi-update','userUpdate');
     Route::patch('userApi-update-seller','userToSeller');

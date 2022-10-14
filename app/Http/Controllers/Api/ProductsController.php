@@ -33,14 +33,4 @@ class ProductsController extends Controller
     {
         return new ProductDetailResource(Product::where('slug',$slug)->first());
     }
-
-    // public function productSearch(Request $request)
-    // {
-
-    //     else
-    //     {
-    //         return response()->json(['message' => '']);
-    //     }
-
-    // }
 }

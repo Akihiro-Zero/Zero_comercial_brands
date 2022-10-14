@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('rekening')->nullable();
             $table->string('firstname')->nullable();
             $table->string('shop_name')->nullable();
+            $table->string('shop_slug')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

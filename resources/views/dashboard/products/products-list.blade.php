@@ -31,7 +31,7 @@
                     <td>{{ $items->name }}</td>
                     <td>{{ $items->description }}</td>
                     <td>
-                        <img src="storage/{{ $items->image }}" alt="Image Here" width="150">
+                        <img src="storage/product-image/{{ $items->image }}" alt="Image Here" width="150">
                     </td>
                     <td>
                         <a href="{{ url('product-edit/'.$items->slug) }}" class="btn btn-primary">Edit</a>

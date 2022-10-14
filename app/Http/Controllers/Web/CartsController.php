@@ -53,7 +53,7 @@ class CartsController extends Controller
     }
     public function Delete($id)
     {
-        // dd($id);
+        // return $id;
         $cartitem = Carts::find($id);
         $cartitem->delete();
         return response()->json(['status' => 'Cart Deleted']);

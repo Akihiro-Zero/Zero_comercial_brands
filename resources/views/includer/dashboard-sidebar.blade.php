@@ -25,6 +25,22 @@
             <p>User Profile</p>
           </a>
         </li>
+        <li class="nav-item
+        {{ Request::is('user-wallet') ? 'active' : '' }}
+        ">
+          <a class="nav-link" href="{{ url('user-wallet') }}">
+            <i class="material-icons">person</i>
+            <p>My e-Wallet Money</p>
+          </a>
+        </li>
+        <li class="nav-item
+                {{ Request::is('my-order-list') ? 'active' : '' }}
+                ">
+            <a class="nav-link " href="{{ url('my-order-list') }}">
+                <i class="material-icons">content_paste</i>
+                <p>My Order List</p>
+            </a>
+            </li>
         @if (Auth()->user()->hasRole('admin'))
             <li class="nav-item
                 {{ Request::is('category-list') ? 'active' : '' }}
@@ -47,19 +63,26 @@
             </a>
             </li>
         @endif
-
-        <li class="nav-item ">
-          <a class="nav-link" href="./icons.html">
-            <i class="material-icons">bubble_chart</i>
-            <p>Icons</p>
-          </a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="{{ url('chatt-app') }}">
-            <i class="material-icons">notifications</i>
-            <p>Notifications</p>
-          </a>
-        </li>
+        @if (auth()->user()->hasRole('admin'))
+            <li class="nav-item
+            {{ Request::is('user-list') ? 'active' : '' }}
+            ">
+            <a class="nav-link" href="{{ url('user-list') }}">
+                <i class="material-icons">bubble_chart</i>
+                <p>User Lists</p>
+            </a>
+            </li>
+        @endif
+        @if (auth()->user()->hasRole(['admin','seller']))
+            <li class="nav-item
+            {{ Request::is('order-list') ? 'active' : '' }}
+            ">
+            <a class="nav-link" href="{{ url('order-list') }}">
+                <i class="material-icons">notifications</i>
+                <p>My Selling Product</p>
+            </a>
+            </li>
+        @endif
       </ul>
     </div>
   </div>

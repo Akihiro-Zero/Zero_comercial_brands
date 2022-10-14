@@ -38,7 +38,5 @@ class UserSeeder extends Seeder
             'password' => bcrypt('asdf;lkj')
         ]);
         $user->assignRole('user');
-
-
     }
 }
