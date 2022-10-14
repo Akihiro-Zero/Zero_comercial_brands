@@ -6,11 +6,128 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Order_list;
+use App\Models\Orders;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
+    public function myOrder()
+    {
+        $user = $this->userValidate();
+        $myorder = Order_list::where('user_id',$user->id)->get();
+        // $orders = Orders::where('track_code',$myorder->track_code)->get();
+        // return $order;
+        return view('dashboard.order.myorder-list',compact(['myorder']));
+    }
+
+    public function myOrderDetail($id)
+    {
+        $user = $this->userValidate();
+        $orders = Orders::where('user_id',$user->id)->find($id);
+        // dd( $orders);
+        return view('dashboard.order.myorder-detail',compact(['orders']));
+    }
+
+    public function myOrderCancel($id)
+    {
+        $user = $this->userValidate();
+        $orders = Orders::where('user_id',$user->id)->find($id);
+        if($orders)
+        {
+            Orders::destroy($id);
+            return response()->json(['message' => 'orders has been canceled']);
+        }
+    }
+
+    public function orderTakeMoney(Request $request, $id)
+    {
+        $user = $this->userValidate();
+        $user->wallet = $request->wallet;
+        $user->update();
+
+
+        Orders::destroy($id);
+        return response()->json(['message' => 'your item has benn sold']);
+    }
+
+    public function myOrderConfirm($id)
+    {
+        $user = $this->userValidate();
+        $orders = Orders::where('user_id',$user->id)->find($id);
+        $orders->status = "completed";
+        $orders->update();
+        return response()->json([
+            'message' => 'orders confirmed',
+            'orders' => $orders
+        ]);
+    }
+
+    public function orderList()
+    {
+        $user = $this->userValidate();
+        if($user->hasRole(['seller','admin']))
+        {
+            $order = Orders::where('seller_id',Auth::id())->get();
+            return view('dashboard.order.order-list',compact(['order']));
+        }
+    }
+
+    public function orderSend($id)
+    {
+        $user = $this->userValidate();
+        if($user->hasRole(['seller','admin']))
+        {
+            $order = Orders::find($id)->where('seller_id',Auth::id())->first();
+            $order->status = "on the way";
+            $order->update();
+            return response()->json([
+                'message' => 'orders updated',
+                'data' => $order
+            ]);
+        }
+    }
+
+    public function orderDetails($id)
+    {
+        $user = $this->userValidate();
+        if($user->hasRole(['seller','admin']))
+        {
+            $orders = Orders::find($id);
+            return view('dashboard.order.order-details',compact(['orders']));
+        }
+    }
+
+    public function userList()
+    {
+        $user = $this->userValidate();
+        if($user->hasRole('admin'))
+        {
+            $users = User::all();
+            return view('dashboard.user.user-list',compact('users'));
+        }
+        else{
+            return response()->json(['message' => 'you are not admin']);
+        }
+    }
+
+    public function userDestroy($id)
+    {
+        $user = $this->userValidate();
+        if($user->hasRole('admin'))
+        {
+            User::destroy($id);
+            return response()->json(['message' => 'User Deleted']);
+        }
+    }
+
+    public function wallet()
+    {
+        $user = $this->userValidate();
+        return view('dashboard.dashboard-wallet',compact('user'));
+    }
+
     public function Index()
     {
         return view('dashboard.dashboard-index');
@@ -71,11 +188,16 @@ class DashboardController extends Controller
         if($user->save())
         {
             $user->assignRole('seller');
-            return response()->json(['status' => 'Your Own Shops Updated']);
+            return response()->json(['status' => 'Your Shops Updated You Become Seller']);
         }
         else{
             return response()->json(['status' => 'Ada yang salah']);
 
         }
+    }
+
+    public function userValidate()
+    {
+       return User::where('id',Auth::id())->first();
     }
 }
