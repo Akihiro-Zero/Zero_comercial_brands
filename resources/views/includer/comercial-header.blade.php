@@ -95,15 +95,15 @@
                     </div>
 
                     <div class="wrap-icon right-section">
-                        <div class="wrap-icon-section wishlist">
+                        {{-- <div class="wrap-icon-section wishlist">
                             <a href="{{ url('wishlist') }}" class="link-direction">
                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                 <div class="left-info">
-                                    {{-- <span class="index">1 item</span> --}}
+                                    <span class="index">1 item</span>
                                     <span class="title">Wishlist</span>
                                 </div>
                             </a>
-                        </div>
+                        </div> --}}
                         <div class="wrap-icon-section minicart">
                             <a href="{{ url('cart') }}" class="link-direction">
                                 <i class="fa fa-shopping-basket" aria-hidden="true"></i>

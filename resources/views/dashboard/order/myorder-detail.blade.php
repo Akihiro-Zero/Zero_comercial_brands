@@ -93,10 +93,10 @@
           <div class="card card-profile">
             <div class="card-avatar">
               <a href="">
-                @if (Auth()->user()->image == false)
+                @if ($orders->product->image == false)
                     <img class="img" src="{{ asset('base-img/avatar.png') }}" />
                 @else
-                    <img class="img" src="{{ asset('storage/product-image/'.$orders->product->image) }}" />
+                    <img class="img" src="{{ asset('storage/'.$orders->product->image) }}" />
                 @endif
               </a>
             </div>

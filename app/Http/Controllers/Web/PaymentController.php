@@ -47,13 +47,23 @@ class PaymentController extends Controller
 
     public function paymentCod(Request $request)
     {
-        // $rand = rand();
+        $request->validate([
+        "firstname"=> "required",
+        "lastname"=> "required",
+        "email"=> "required",
+        "phone"=> "required",
+        "adress"=> "required",
+        "country"=> "required",
+        "postcode"=> "required",
+        "city"=> "required",
+        ]);
+        $rand = rand();
         // return $request;
         $cart = Carts::where('user_id',Auth::id())->get();
         $user = User::where('id',Auth::id())->first();
         Order_list::create([
             'user_id' => Auth::id(),
-            'track_code' => rand(),
+            'track_code' => $rand,
             'total_price' => $request->total_price
         ]);
         if($user->adress == null)
@@ -61,19 +71,20 @@ class PaymentController extends Controller
             $user->firstname = $request->firstname;
             $user->lastname = $request->lastname;
             $user->email = $request->email;
+            $user->phone = $request->phone;
             $user->adress = $request->adress;
             $user->country = $request->country;
             $user->postcode = $request->postcode;
             $user->city = $request->city;
             $user->update();
         }
-        $orderlist = Order_list::where('user_id',Auth::id())->first();
+        // $orderlist = Order_list::where('user_id',Auth::id())->first();
         foreach($cart as $carts)
         {
             Orders::create([
                 'seller_id' => $carts->seller_id,
                 'firstname' => $user->firstname,
-                'track_code' => $orderlist->track_code,
+                'track_code' => $rand,
                 'user_id' => $user->id,
                 'prod_id' => $carts->prod_id,
                 'lastname' => $user->lastname,

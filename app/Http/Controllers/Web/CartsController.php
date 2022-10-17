@@ -23,7 +23,7 @@ class CartsController extends Controller
         $prod_qty = $request->input('product-quatity');
         $user_id = $request->input('user_id');
         $seller_id = $request->input('seller_id');
-
+        // @dd($user_id,$prod_id,$seller_id);
         $prod_check = Product::where('id',$prod_id)->first();
         if($prod_check)
         {

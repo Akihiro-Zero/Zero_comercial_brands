@@ -68,32 +68,33 @@
 
 						<ul class="product-list grid-products equal-container">
                             @foreach ($products as $product)
-                                <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6 ">
-                                    <div class="product product-style-3 equal-elem ">
+                            <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6 ">
+                                <div class="product product-style-3 equal-elem ">
+
                                         <div class="product-thumnail">
                                             <a href="{{ url('product-details/'.$product->slug) }}" title="{{ $product->name }}">
-                                                <figure><img src="{{ asset('storage/product-image/'.$product->image) }}" alt="T-Shirt Raw Hem Organic Boro Constrast Denim"></figure>
+                                                <figure><img src="{{ asset('storage/'.$product->image) }}" alt="T-Shirt Raw Hem Organic Boro Constrast Denim"></figure>
                                             </a>
                                         </div>
                                         <div class="product-info">
                                             <a href="{{ url('product-details/'.$product->slug) }}" class="product-name"><span>{{ $product->name }}</span></a>
                                             <div class="wrap-price"><span class="product-price">{{ $product->price }}</span></div>
-                                            <a href="{{ route('add-cart') }}" class="btn add-to-cart"
+                                            {{-- <a href="{{ route('add-cart') }}" class="btn add-to-cart"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('add-cart-form').submit();">Add To Cart
-                                            </a>
-                                            <form id="add-cart" action="{{ route('add-cart') }}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="product-quatity" value="1" data-max="120" pattern="[0-9]*" >
-                                                <input type="hidden" name="user_id" value="{{ Auth()->id() }}">
-                                                <input type="hidden" name="prod_id" value="{{ $product->id }}">
-                                                <input type="hidden" name="seller_id" value="{{ $product->seller_id }}">
-                                            </form>
-
+                                            </a> --}}
                                         </div>
+                                    {{-- <form id="add-cart-form" action="{{ route('add-cart') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product-quatity" value="1" data-max="120" pattern="[0-9]*" >
+                                            <input type="hidden" name="user_id" value="{{ Auth()->id() }}">
+                                            <input type="hidden" name="prod_id" value="{{ $product->name }}">
+                                            <input type="hidden" name="seller_id" value="{{ $product->seller_id }}">
+                                    </form> --}}
                                     </div>
                                 </li>
                             @endforeach
+
 						</ul>
 
 					</div>
@@ -143,7 +144,7 @@
 								</li> --}}
                                 @foreach ($category as $categories)
                                     <li class="category-item">
-                                        <a href="{{ url('category/'.$categories->slug) }}" class="cate-link">{{ $categories->name }}</a>
+                                        <a href="{{ url('category/'.$categories->id) }}" class="cate-link">{{ $categories->name }}</a>
                                     </li>
                                 @endforeach
 								{{-- <li class="category-item">

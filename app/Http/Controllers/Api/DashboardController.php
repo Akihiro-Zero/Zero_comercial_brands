@@ -107,31 +107,32 @@ class DashboardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function Productstore(Request $request)
+    public function productStore(Request $request)
     {
         $user = User::where('id',auth()->guard('api')->id())->first();
+        $dataid = $user->id;
         if($user->hasRole(['admin','seller']))
         {
-            $product = new Product;
-            $product->description = $request->description;
-            $product->dimension  = $request->dimension;
-            $product->seller_id = $user->id;
-            $product->cate_id  = $request->cate_id;
-            $product->popular = $request->popular;
-            $product->status = $request->status;
-            $product->weight = $request->weight;
-            $product->image  = $request->image;
-            $product->price = $request->price;
-            $product->color = $request->color;
-            $product->name = $request->name;
-            $product->slug = Str::slug($request->name);
-            $product->qty = $request->qty;
+            $validate = $request->validate([
+                "description" => "required",
+                "dimension" => "required",
+                "seller_id" => "required",
+                "cate_id" => "required",
+                "popular" => "nullable",
+                "status" => "nullable",
+                "weight" => "required",
+                "image" => "image|file|nullable|max:5000",
+                "price" => "required",
+                "color" => "required",
+                "name" => "required",
+                "slug" => "required",
+                "qty" => "required",
+            ]);
             if($request->hasFile('image'))
             {
-                $request->file('image')->store($request->name);
+                $validate['image'] = $request->file('image')->store('product-image/'.$user->name);
             }
-            // return $product->name;
-            $product->save();
+            Product::create($validate);
             return response()->json(['status' => 'product succesfully added']);
         }
         else
@@ -194,7 +195,12 @@ class DashboardController extends Controller
                     "slug"=> "nullable",
                     "qty"=> "nullable",
                 ]);
-                // $product->weight = $request->weight;
+                if($request->hasFile('image'))
+                {
+                    Storage::delete($product->image);
+                    // return $product;
+                    $validate['image'] = $request->file('image')->store('product-image/'.$user->name);
+                }
                 $product->update($validate);
                 return response()->json([
                     'message' => 'Product updated succesfully',

@@ -39,7 +39,7 @@
 						</p>
 						<p class="row-in-form">
 							<label for="email">Email Addreess:</label>
-							<input id="email" required type="email" name="email" value="{{ $user->email }}" placeholder="Type your email">
+							<input id="email" readonly required type="email" name="email" value="{{ $user->email }}" placeholder="Type your email">
 						</p>
 						<p class="row-in-form">
 							<label for="phone">Phone number<span>*</span></label>
@@ -71,8 +71,8 @@
 								<span>Ship to a different address?</span>
 							</label>
 						</p> --}}
+                        @csrf
                         <input type="hidden" name="total_price" value="{{ $total }}">
-						@csrf
 					</form>
 				</div>
 				<div class="summary summary-checkout">
@@ -119,7 +119,7 @@
                             <hr>
                         <button class="btn btn-medium" id="pay-button">Bayar Dengan Mid-Trans</button>
 
-                        {{-- <script type="text/javascript"
+                        <script type="text/javascript"
                         src="https://app.sandbox.midtrans.com/snap/snap.js"
                         data-client-key="SB-Mid-client-ENZ7pixlAw-XO53s"></script>
                         <script type="text/javascript">
@@ -134,7 +134,7 @@
                             onError: function(result){console.log('error');console.log(result);},
                             onClose: function(){console.log('customer closed the popup without finishing the payment');}
                             })
-                        </script> --}}
+                        </script>
                     </div>
 					{{-- <div class="summary-item shipping-method">
 						<h4 class="title-box f-title">Shipping method</h4>

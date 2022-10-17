@@ -23,35 +23,30 @@
                         <div class="detail-media">
                             <div class="product-gallery">
                             <ul class="slides">
-                                <li data-thumb="{{ asset('storage/product-image/'.$product->image) }}">
-                                    <img src="{{ asset('storage/product-image/'.$product->image) }}" alt="product thumbnail" />
+                                <li data-thumb="{{ asset('storage/'.$product->image) }}">
+                                    <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
                                 </li>
-                                <li data-thumb="{{ asset('storage/product-image/'.$product->image) }}">
-                                    <img src="{{ asset('storage/product-image/'.$product->image) }}" alt="product thumbnail" />
+                                <li data-thumb="{{ asset('storage/'.$product->image) }}">
+                                    <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
                                 </li>
-                                <li data-thumb="{{ asset('storage/product-image/'.$product->image) }}">
-                                    <img src="{{ asset('storage/product-image/'.$product->image) }}" alt="product thumbnail" />
+                                <li data-thumb="{{ asset('storage/'.$product->image) }}">
+                                    <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
                                 </li>
                             </ul>
                             </div>
                         </div>
                         <div class="detail-info">
-                            <div class="product-rating">
+                            {{-- <div class="product-rating">
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <a href="#" class="count-review">(05 review)</a>
-                            </div>
+                            </div> --}}
                             <h2 class="product-name">{{ $product->name }}</h2>
                             <div class="short-desc">
                                 <p>{{ $product->description }}</p>
-                                {{-- <ul>
-                                    <li>7,9-inch LED-backlit, 130Gb</li>
-                                    <li>Dual-core A7 with quad-core graphics</li>
-                                    <li>FaceTime HD Camera 7.0 MP Photos</li>
-                                </ul> --}}
                             </div>
                             <div class="wrap-social">
                                 <a class="link-socail" href="#"><img src="assets/images/social-list.png" alt=""></a>
@@ -84,7 +79,7 @@
 
 
                                 <div class="wrap-btn">
-                                    <a href="{{ url('add-wishlist') }}" class="btn btn-wishlist">Add Wishlist</a>
+                                    {{-- <a href="{{ url('add-wishlist') }}" class="btn btn-wishlist">Add Wishlist</a> --}}
                                     {{-- <a href="#" class="btn btn-compare">Add Compare</a> --}}
                                 </div>
                             </div>
@@ -93,7 +88,7 @@
                             <div class="tab-control normal">
                                 <a href="#description" class="tab-control-item active">description</a>
                                 <a href="#add_infomation" class="tab-control-item">Addtional Infomation</a>
-                                <a href="#review" class="tab-control-item">Reviews</a>
+                                {{-- <a href="#review" class="tab-control-item">Reviews</a> --}}
                             </div>
                             <div class="tab-contents">
                                 <div class="tab-content-item active" id="description">

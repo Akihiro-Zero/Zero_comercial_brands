@@ -69,6 +69,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'unique_id' => rand(),
+            'status' => 'Active now'
         ]);
         // $user = Role::findByName('user','api');
         $user->assignRole('user');

@@ -5,32 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="{{asset('chat-app/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('chat-app/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <div class="wrapper">
-    <section class="users">
-      <header>
-        <div class="content">
+        <section class="chat-area">
+          <header>
+            <?php
+            //   $user_id = mysqli_real_escape_string($conn, $_GET['user_id']);
+            //   $sql = mysqli_query($conn, "SELECT * FROM users WHERE unique_id = {$user_id}");
+            //   if(mysqli_num_rows($sql) > 0){
+            //     $row = mysqli_fetch_assoc($sql);
+            //   }else{
+            //     header("location: users.php");
+            //   }
+            ?>
+            <a href="users.php" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+            <img src="{{ asset('storage/'.$user->image) }}" alt="">
+            <div class="details">
+              <span>
+                {{ $user->firstname  . $user->lastname }}
+              </span>
+              <p>
+                {{ $user->status }}
+              </p>
+            </div>
+          </header>
+          <div class="chat-box">
 
-          <img src="" alt="">
-          <div class="details">
-            <span></span>
-            <p></p>
           </div>
-        </div>
-        <a href="" class="logout">Logout</a>
-      </header>
-      <div class="search">
-        <span class="text">Select an user to start chat</span>
-        <input type="text" placeholder="Enter name to search...">
-        <button><i class="fas fa-search"></i></button>
+          <form action="#" class="typing-area">
+            <input type="text" class="incoming_id" name="incoming_id" value="{{ $user->id }}" hidden>
+            <input type="text" name="message" class="input-field" placeholder="Type a message here..." autocomplete="off">
+            <button><i class="fab fa-telegram-plane"></i></button>
+          </form>
+        </section>
       </div>
-      <div class="users-list">
-
-      </div>
-    </section>
-</div>
+      <script src="{{ asset('chat-app/chat.js') }}"></script>
 </body>
 </html>
-

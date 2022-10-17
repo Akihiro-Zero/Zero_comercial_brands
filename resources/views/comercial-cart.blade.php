@@ -33,7 +33,7 @@
                         @endphp
                         <li class="pr-cart-item">
                             <div class="product-image">
-                                <figure><img src="{{ asset('storage/product-image/'.$carts->product->image) }}" alt=""></figure>
+                                <figure><img src="{{ asset('storage/'.$carts->product->image) }}" alt=""></figure>
                             </div>
                             <div class="product-name">
                                 <a class="link-to-product" href="{{ url('product-details/'.$carts->product->slug) }}">{{ $carts->product->name }}</a>

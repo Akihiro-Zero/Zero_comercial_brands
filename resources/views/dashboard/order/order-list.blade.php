@@ -30,7 +30,7 @@
                     <td>{{ $items->status }}</td>
                     <td>
                         @if ($items->product->image == true)
-                        <img src="{{ asset('storage/product-image/'.$items->product->image) }}" alt="Image Here" width="150">
+                        <img src="{{ asset('storage/'.$items->product->image) }}" alt="Image Here" width="150">
                         @else
                         <img src="{{ asset('base-img/avatar.png') }}" alt="" width="150">
                         @endif

@@ -33,7 +33,10 @@ Route::get('products/{slug}',[ProductsController::class,'productDetails']);
 Route::controller(CheckoutingController::class)->group(function(){
     Route::get('cartApi-list','cartIndex');
     Route::post('add-cart','cartStore');
+    Route::post('makeApi-order','makeOrders');
     Route::delete('cartApi-destroy/{id}','cartDestroy');
+    Route::get('myApi-order-list','myorder');
+
 });
 
 
@@ -49,8 +52,8 @@ Route::controller(DashboardController::class)->group(function(){
     Route::get('productApi-search','productSearch');
     Route::get('productApi-list','productSeller');
     Route::get('productApi-details/{id}','productSellerShow');
-    Route::put('productApi-add','productStore');
-    Route::patch('productApi-edit/{id}','productUpdate');
+    Route::post('productApi-add','productStore');
+    Route::post('productApi-edit/{id}','productUpdate');
     Route::delete('productApi-delete/{id}','productDestroy');
 
     //Api Category

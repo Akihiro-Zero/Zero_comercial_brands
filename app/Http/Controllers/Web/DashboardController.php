@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
+
+    public function sendChat(Request $request)
+    {
+        return $request;
+    }
+
+    public function Chat($name)
+    {
+        $user = User::where('name',$name)->first();
+        return view('dashboard.chat-app.dashboard-chatt',compact('user'));
+    }
+
     public function myOrder()
     {
         $user = $this->userValidate();

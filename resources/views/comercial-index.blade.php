@@ -14,7 +14,7 @@
                                 <h2 class="f-title"><b>{{ $categories->name }}</b></h2>
                                 <span class="subtitle">{{ $categories->description }}</span>
                                 <p class="sale-info"> <span class="price"></span></p>
-                                <a href="#" class="btn-link">Shop Now</a>
+                                <a href="{{ url('category/'.$categories->id) }}" class="btn-link">Shop Now</a>
                             </div>
                         </div>
                     @endforeach
@@ -44,7 +44,7 @@
 			<div class="wrap-banner style-twin-default">
                 @foreach ($category as $categories)
                     <div class="banner-item">
-                        <a href="#" class="link-banner banner-effect-1">
+                        <a href="{{ url('category/'.$categories->id) }}" class="link-banner banner-effect-1">
                             <figure><img src="{{ asset('storage/'.$categories->image) }}" alt="" width="580" height="190"></figure>
                         </a>
                     </div>
@@ -65,17 +65,17 @@
                         <div class="product product-style-2 equal-elem ">
                             <div class="product-thumnail">
                                 <a href="{{ url('product-details/'.$prod->slug) }}" title="{{ $prod->name }}">
-                                    <figure><img src="{{ asset('storage/product-image/'.$prod->image) }}" width="800" height="800" alt="T-Shirt Raw Hem Organic Boro Constrast Denim"></figure>
+                                    <figure><img src="{{ asset('storage/'.$prod->image) }}" width="800" height="800" alt="T-Shirt Raw Hem Organic Boro Constrast Denim"></figure>
                                 </a>
                                 <div class="group-flash">
                                     <span class="flash-item sale-label">sale</span>
                                 </div>
                                 <div class="wrap-btn">
-                                    <a href="#" class="function-link">quick view</a>
+                                    <a href="{{ url('product-details/'.$prod->slug) }}" class="function-link">quick view</a>
                                 </div>
                             </div>
                             <div class="product-info">
-                                <a href="#" class="product-name"><span>{{ $prod->name }}</span></a>
+                                <a href="{{ url('product-details/'.$prod->slug) }}" class="product-name"><span>{{ $prod->name }}</span></a>
                                 <div class="wrap-price"><span class="product-price">{{ $prod->price }}</span></div>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                                         <div class="product product-style-2 equal-elem ">
                                             <div class="product-thumnail">
                                                 <a href="{{ url('product-details/'.$product->slug) }}" title="{{ $product->name }}">
-                                                    <figure><img src="{{ asset('storage/product-image/'.$product->image) }}" width="800" height="800" alt="{{ $product->name }}"></figure>
+                                                    <figure><img src="{{ asset('storage/'.$product->image) }}" width="800" height="800" alt="{{ $product->name }}"></figure>
                                                 </a>
                                                 <div class="group-flash">
                                                     <span class="flash-item new-label">new</span>

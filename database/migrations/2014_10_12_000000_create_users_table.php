@@ -17,12 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('password');
+            $table->integer('unique_id');
             $table->string('email')->unique();
             $table->string('city')->nullable();
             $table->string('bank')->nullable();
             $table->string('e_ktp')->nullable();
             $table->string('phone')->nullable();
             $table->string('image')->nullable();
+            $table->string('status')->nullable();
             $table->string('adress')->nullable();
             $table->string('country')->nullable();
             $table->longText('about')->nullable();
