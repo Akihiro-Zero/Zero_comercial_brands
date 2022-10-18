@@ -86,6 +86,8 @@ Route::middleware(['auth'])->group(function(){
     Route::post('my-order-cancel/{id}',[DashboardController::class,'myOrderCancel']);
     Route::post('my-order-confirm/{id}',[DashboardController::class,'myOrderConfirm']);
 
+
+
     //admin interface
     Route::get('user-list',[DashboardController::class,'userList']);
     Route::get('user-destroy/{id}',[DashboardController::class,'userDestroy']);
@@ -103,6 +105,7 @@ Route::middleware(['auth'])->group(function(){
     //chatt
     Route::get('chatt-app/{name}',[DashboardController::class,'chat']);
     Route::post('chatt-send',[DashboardController::class,'sendchat'])->name('chatt-send');
+    Route::get('chatt-get/{partner}',[DashboardController::class,'getchat']);
 });
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
