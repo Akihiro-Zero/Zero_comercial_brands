@@ -6,17 +6,77 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Messages;
 use App\Models\Order_list;
-use App\Models\Orders;
+use App\Models\Orders
+;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
+    public function sellProdList()
+    {
+        $user = $this->userValidate();
+        $orders = Orders::where('seller_id',$user->id)->get();
+        return response()->json([
+            'status' => 'succes',
+            'orders' => $orders,
+        ]);
+    }
+
+    public function getChat($partner)
+    {
+        // return $partner;
+        $user = $this->userValidate();
+        $outgoing_id = $user->unique_id;
+        $incoming_id = $partner;
+        $output = "";
+        $chat = Messages::where('outgoing_msg_id',$outgoing_id)
+                        ->where('incoming_msg_id',$incoming_id)
+                        ->orWhere('outgoing_msg_id',$incoming_id)
+                        ->where('incoming_msg_id',$outgoing_id)->get();
+    // return response()->json(['data' => $chat]);
+        if($chat){
+        foreach($chat as $chats)
+        {
+            if($chats->outgoing_msg_id == $outgoing_id)
+            {
+                $output .= '<div class="chat outgoing">
+                            <div class="details">
+                                <p>'. $chats['msg'] .'</p>
+                            </div>
+                            </div>';
+            }
+            else
+            {
+                $output .= '<div class="chat incoming">
+                                <div class="details">
+                                    <p>'. $chats['msg'] .'</p>
+                                </div>
+                                </div>';
+            }
+        }
+        }else{
+            $output .= '<div class="text">No messages are available. Once you send message they will appear here.</div>';
+        }
+        return $output;
+    }
 
     public function sendChat(Request $request)
     {
-        return $request;
+        // return $request;
+        $user = $this->userValidate();
+        if(!empty($request->message))
+        {
+            $messages = new Messages;
+            $messages->outgoing_msg_id = $user->unique_id;
+            $messages->incoming_msg_id = $request->incoming_id;
+            $messages->msg = $request->message;
+            $messages->save();
+            // return response()->json(['mesage' => $messages]);
+        }
+
     }
 
     public function Chat($name)
@@ -176,9 +236,6 @@ class DashboardController extends Controller
         }
         $user = User::find($id);
         $user->update($validate);
-
-        // dd($user,$validate);
-        // return $user;
         view('dashboard.dashboard-index')->with('status','User Profile Updated');
     }
 
@@ -197,8 +254,13 @@ class DashboardController extends Controller
         $user->about = $request->about;
         $user->e_ktp = $request->e_ktp;
         $user->bank = $request->bank;
+
         if($user->save())
         {
+            if($user->hasRole(['admin','seller']))
+            {
+                return response()->json(['status' => 'Your Shops Updated']);
+            }
             $user->assignRole('seller');
             return response()->json(['status' => 'Your Shops Updated You Become Seller']);
         }

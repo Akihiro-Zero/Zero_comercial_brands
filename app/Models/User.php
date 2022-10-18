@@ -81,4 +81,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function chatget()
+    {
+        return $this->belongsTo(Messages::class,'outgoing_msg_id','unique_id');
+    }
 }

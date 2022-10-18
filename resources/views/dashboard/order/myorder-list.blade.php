@@ -25,7 +25,7 @@
                             <td>Product Name</td>
                             <td>Product Price</td>
                             <td>Status</td>
-                            <td>Track Code</td>
+                            <td>Chat Seller</td>
                             <td>Image</td>
                             <td>Action</td>
                         </tr>
@@ -36,7 +36,7 @@
                             <td>{{ $items->product->name}}</td>
                             <td>{{ $items->product->price }}</td>
                             <td>{{ $items->status }}</td>
-                            <td>{{ $order->track_code }}</td>
+                            <td>Seller Chat: <a href="{{ url('chatt-app/'.$items->user->name) }}">  {{ $items->user->name }}</a> </td>
                             <td>
                                 @if ($items->product->image == true)
                                 <img src="{{ asset('storage/'.$items->product->image) }}" alt="Image Here" width="150">

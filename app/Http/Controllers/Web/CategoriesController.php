@@ -63,7 +63,7 @@ class CategoriesController extends Controller
         }
         $categories = Categories::find($id);
         $categories->update($validate);
-        dd($categories,$validate);
+        // dd($categories,$validate);
         return redirect('dashboard-page')->with('status','Data Updated');
     }
 

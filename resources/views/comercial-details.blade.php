@@ -80,7 +80,7 @@
 
                                 <div class="wrap-btn">
                                     {{-- <a href="{{ url('add-wishlist') }}" class="btn btn-wishlist">Add Wishlist</a> --}}
-                                    {{-- <a href="#" class="btn btn-compare">Add Compare</a> --}}
+                                    <a href="{{ url('chatt-app/'.$product->seller->name) }}" class="btn btn-compare">Chatt Seller</a>
                                 </div>
                             </div>
                         </div>
