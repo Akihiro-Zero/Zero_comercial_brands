@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
+use App\Models\Orders;
 use App\Models\Product;
+use App\Models\Categories;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Laravel\Ui\Presets\React;
 use App\Http\Controllers\Controller;
-use App\Models\Categories;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Ui\Presets\React;
 
 class DashboardController extends Controller
 {
+
+    public function sellProdList()
+    {
+        $user = $this->userValidate();
+        $orders = Orders::where('seller_id',$user->id)->get();
+        return response()->json([
+            'status' => 'succes',
+            'orders' => $orders,
+        ]);
+    }
 
     public function userList()
     {
