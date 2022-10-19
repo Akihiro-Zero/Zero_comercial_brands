@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('firstname')->nullable();
             $table->integer('user_id');
             $table->integer('prod_id');
-            $table->string('messsage')->nullable();
+            $table->string('track_code')->nullable();
             $table->string('lastname')->nullable();
             $table->string('address')->nullable();
             $table->string('country')->nullable();
@@ -27,6 +27,9 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('city')->nullable();
+            $table->string('qty')->nullable();
+            $table->string('status')->nullable();
+            $table->string('messsage')->nullable();
             $table->timestamps();
         });
     }

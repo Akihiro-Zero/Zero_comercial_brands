@@ -19,7 +19,8 @@ class UserSeeder extends Seeder
         $admin = User::create([
             'name' => 'zero',
             'email' => 'zero@gmail.com',
-            'password' => bcrypt('asdf;lkj')
+            'password' => bcrypt('asdf;lkj'),
+            'unique_id' => '177013'
         ]);
         $admin->assignRole('admin');
 
@@ -27,7 +28,9 @@ class UserSeeder extends Seeder
         $seller = User::create([
             'name' => 'dewa',
             'email' => 'dewa@gmail.com',
-            'password' => bcrypt('asdf;lkj')
+            'password' => bcrypt('asdf;lkj'),
+            'unique_id' => '279261'
+
         ]);
         $seller->assignRole('seller');
 
@@ -35,7 +38,8 @@ class UserSeeder extends Seeder
         $user = User::create([
             'name' => 'raja',
             'email' => 'raja@gmail.com',
-            'password' => bcrypt('asdf;lkj')
+            'password' => bcrypt('asdf;lkj'),
+            'unique_id' => '24434'
         ]);
         $user->assignRole('user');
     }

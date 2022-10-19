@@ -18,7 +18,7 @@ class DashboardController extends Controller
 
     public function sellProdList()
     {
-        $user = $this->userValidate();
+        $user = User::where('id',auth()->guard('api')->id())->first();
         $orders = Orders::where('seller_id',$user->id)->get();
         return response()->json([
             'status' => 'succes',
