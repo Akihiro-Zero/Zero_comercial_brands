@@ -15,15 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
-    public function sellProdList()
-    {
-        $user = $this->userValidate();
-        $orders = Orders::where('seller_id',$user->id)->get();
-        return response()->json([
-            'status' => 'succes',
-            'orders' => $orders,
-        ]);
-    }
+
 
     public function getChat($partner)
     {
