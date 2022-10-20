@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -41,7 +43,9 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        // return $user;
+        $user = User::where('id',Auth::id())->first();
+        $user->status = "Active now";
+        $user->update();
         if($user->hasRole('admin')){
             return redirect()->route('dashboard');
         }
