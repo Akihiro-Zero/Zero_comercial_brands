@@ -45,7 +45,7 @@ Route::get('return-policy',function(){
 
 Route::get('shop',[ProductsController::class,'indexAll']);
 Route::get('category/{id}',[ProductsController::class,'indexCategory']);
-Route::get('product-search',[ProductsController::class,'indexAll']);
+Route::post('product-search',[ProductsController::class,'indexAll']);
 
 Route::get('dashboard-chat',function(){
     return view('dashboard.chat-app.dashboard-chatt');

@@ -22,12 +22,11 @@ class ProductsController extends Controller
 
     public function indexAll(Request $request)
     {
-        if($request->search == true)
+        if($request->search)
         {
             $products = Product::where("name","LIKE","%$request->search%")->get();
             $category = Categories::all();
          return view('comercial-allProducts',compact(['products','category']));
-
         }
         $products = Product::all();
         $category = Categories::all();
