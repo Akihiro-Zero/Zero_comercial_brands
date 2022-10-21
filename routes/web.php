@@ -33,6 +33,7 @@ Route::controller(ComercialController::class)->group(function(){
     // Route::get('return-policy', 'return');
 });
 
+
 Route::get('about-us',function(){
     return view('comercial-about');
 });
@@ -51,6 +52,9 @@ Route::get('dashboard-chat',function(){
     return view('dashboard.chat-app.dashboard-chatt');
 });
 Route::middleware(['auth'])->group(function(){
+    //Rating
+    Route::post('rating-add',[ComercialController::class,'ratingAdd']);
+
     //User Interface
     Route::get('cart',[CartsController::class,'index']);
     Route::get('wishlist',[WishlistController::class,'index']);

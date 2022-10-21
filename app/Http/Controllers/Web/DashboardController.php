@@ -228,7 +228,8 @@ class DashboardController extends Controller
         }
         $user = User::find($id);
         $user->update($validate);
-        view('dashboard.dashboard-index')->with('status','User Profile Updated');
+        return response()->json(['message' => 'user updated']);
+        // view('dashboard.dashboard-index')->with('status','User Profile Updated');
     }
 
     public function register()

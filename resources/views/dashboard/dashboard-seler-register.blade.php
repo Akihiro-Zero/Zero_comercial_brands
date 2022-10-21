@@ -33,7 +33,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="bmd-label-floating">Nomor E-KTP</label>
-                      <input type="text" name="e_ktp"  value="{{ $user->e_ktp }}" class="form-control">
+                      <input type="number" name="e_ktp"  value="{{ $user->e_ktp }}" class="form-control">
                     </div>
                   </div>
                 </div>
@@ -54,7 +54,7 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <label class="bmd-label-floating">Nomor Rekening</label>
-                      <input type="text" name="rekening"  value="{{ $user->rekening }}" class="form-control">
+                      <input type="number" name="rekening"  value="{{ $user->rekening }}" class="form-control">
                     </div>
                   </div>
                   <div class="col-md-4">

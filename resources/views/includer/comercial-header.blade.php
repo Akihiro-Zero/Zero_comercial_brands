@@ -1,7 +1,6 @@
 <header id="header" class="header header-style-1">
     <div class="container-fluid">
         <div class="row">
-
             <div class="topbar-menu-area">
                 <div class="container">
                     <div class="topbar-menu left-menu">
