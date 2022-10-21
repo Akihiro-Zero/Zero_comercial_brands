@@ -17,33 +17,48 @@
                 </ul>
             </div>
             <div class="row">
-
                 <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 main-content-area">
                     <div class="wrap-product-detail">
                         <div class="detail-media">
                             <div class="product-gallery">
-                            <ul class="slides">
-                                <li data-thumb="{{ asset('storage/'.$product->image) }}">
-                                    <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
-                                </li>
-                                <li data-thumb="{{ asset('storage/'.$product->image) }}">
-                                    <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
-                                </li>
-                                <li data-thumb="{{ asset('storage/'.$product->image) }}">
-                                    <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
-                                </li>
-                            </ul>
+                                <ul class="slides">
+                                    <li data-thumb="{{ asset('storage/'.$product->image) }}">
+                                        <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
+                                    </li>
+                                    <li data-thumb="{{ asset('storage/'.$product->image) }}">
+                                        <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
+                                    </li>
+                                    <li data-thumb="{{ asset('storage/'.$product->image) }}">
+                                        <img src="{{ asset('storage/'.$product->image) }}" alt="product thumbnail" />
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <div class="detail-info">
-                            {{-- <div class="product-rating">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <a href="#" class="count-review">(05 review)</a>
-                            </div> --}}
+                            @php
+                                $ratenum = number_format($rating_value);
+                            @endphp
+                            {{-- @dd($ratenum) --}}
+                            <div class="rating">
+                                <span>Products Rating:</span>
+                                @if ($ratings->count() > 0)
+                                    {{ $ratings->count() }} Ratings
+                                @else
+                                    No Ratings Yet
+                                @endif
+                                <br>
+                                @for ($x =1; $x <= $ratenum; $x++)
+                                    <i class="fa fa-star checked"></i>
+                                @endfor
+                                @for ($y=$ratenum+1; $y <= 5; $y++ )
+
+                                <i class="fa fa-star"></i>
+                                @endfor
+
+
+                                {{-- </div> --}}
+                            </div>
+                            <br>
                             <h2 class="product-name">{{ $product->name }}</h2>
                             <div class="short-desc">
                                 <p>{{ $product->description }}</p>
@@ -88,7 +103,7 @@
                             <div class="tab-control normal">
                                 <a href="#description" class="tab-control-item active">description</a>
                                 <a href="#add_infomation" class="tab-control-item">Addtional Infomation</a>
-                                {{-- <a href="#review" class="tab-control-item">Reviews</a> --}}
+                                <a href="#review" class="tab-control-item">Reviews</a>
                             </div>
                             <div class="tab-contents">
                                 <div class="tab-content-item active" id="description">
@@ -116,25 +131,36 @@
                                     <div class="wrap-review-form">
 
                                         <div id="comments">
-                                            <h2 class="woocommerce-Reviews-title">01 review for <span>Radiant-360 R6 Chainsaw Omnidirectional [Orage]</span></h2>
+                                            <h2 class="woocommerce-Reviews-title">{{ $reviews->count() }} review for <span>{{ $product->name }}</span></h2>
                                             <ol class="commentlist">
                                                 <li class="comment byuser comment-author-admin bypostauthor even thread-even depth-1" id="li-comment-20">
-                                                    <div id="comment-20" class="comment_container">
-                                                        <img alt="" src="assets/images/author-avata.jpg" height="80" width="80">
-                                                        <div class="comment-text">
-                                                            <div class="star-rating">
-                                                                <span class="width-80-percent">Rated <strong class="rating">5</strong> out of 5</span>
-                                                            </div>
-                                                            <p class="meta">
-                                                                <strong class="woocommerce-review__author">admin</strong>
-                                                                <span class="woocommerce-review__dash">–</span>
-                                                                <time class="woocommerce-review__published-date" datetime="2008-02-14 20:00" >Tue, Aug 15,  2017</time>
-                                                            </p>
-                                                            <div class="description">
-                                                                <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                                                    @foreach ($reviews as $review)
+                                                        <div id="comment-20" class="comment_container">
+                                                            @if ($review->image)
+                                                            <img alt="" src="{{ asset('storage/profile-images/'.$review->user->image) }}" height="80" width="80">
+                                                            @else
+                                                            <img alt="" src="{{ asset('base-img/avatar.png') }}" height="80" width="80">
+                                                            @endif
+                                                            <div class="comment-text">
+                                                                <div class="ratings">
+                                                                    @ for ($a = 1; $a <= $review->rating->stars_rated; $a++)
+                                                                        <i class="fa fa-star checked"></i>
+                                                                    @endfor
+                                                                    @for ($b = $review->rating->stars_rated+1; $b <= 5; $b++)
+                                                                    <i class="fa fa-star"></i>
+                                                                    @endfor
+                                                                </div>
+                                                                <p class="meta">
+                                                                    <strong class="woocommerce-review__author">{{ $review->user->name }}</strong>
+                                                                    <span class="woocommerce-review__dash">–</span>
+                                                                    <time class="woocommerce-review__published-date" datetime="2008-02-14 20:00" >{{ $review->user->created_at->format('d M Y') }}</time>
+                                                                </p>
+                                                                <div class="description">
+                                                                    <p>{{ $review->user_review }}</p>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    @endforeach
                                                 </li>
                                             </ol>
                                         </div><!-- #comments -->
@@ -143,41 +169,50 @@
                                             <div id="review_form">
                                                 <div id="respond" class="comment-respond">
 
-                                                    <form action="#" method="post" id="commentform" class="comment-form" novalidate="">
+                                                    <form action="{{ url('rating-add') }}" method="POST" id="commentform" class="comment-form" novalidate="">
+                                                       @csrf
+                                                       <input type="hidden" name="prod_id" value="{{ $product->id }}">
                                                         <p class="comment-notes">
                                                             <span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span>
                                                         </p>
                                                         <div class="comment-form-rating">
                                                             <span>Your rating</span>
                                                             <p class="stars">
-
-                                                                <label for="rated-1"></label>
-                                                                <input type="radio" id="rated-1" name="rating" value="1">
-                                                                <label for="rated-2"></label>
-                                                                <input type="radio" id="rated-2" name="rating" value="2">
-                                                                <label for="rated-3"></label>
-                                                                <input type="radio" id="rated-3" name="rating" value="3">
-                                                                <label for="rated-4"></label>
-                                                                <input type="radio" id="rated-4" name="rating" value="4">
-                                                                <label for="rated-5"></label>
-                                                                <input type="radio" id="rated-5" name="rating" value="5" checked="checked">
+                                                                {{-- @dd($user_rating) --}}
+                                                            @if ($user_rating)
+                                                                @for ($i = 1; $i <= $user_rating->stars_rated; $i++)
+                                                                    <label for="rated-{{ $i }}"></label>
+                                                                    <input type="radio" id="rated-{{ $i }}" name="rating" value="{{ $i }}"  checked>
+                                                                @endfor
+                                                                @for ($j = $user_rating->stars_rated+1; $j <= 5; $j++)
+                                                                    <label for="rated-{{ $j }}"></label>
+                                                                    <input type="radio" id="rated-{{ $j }}" name="rating" value="{{ $j }}" >
+                                                                @endfor
+                                                            @else
+                                                                    <label for="rated-1"></label>
+                                                                    <input type="radio" id="rated-1" name="rating" value="1">
+                                                                    <label for="rated-2"></label>
+                                                                    <input type="radio" id="rated-2" name="rating" value="2">
+                                                                    <label for="rated-3"></label>
+                                                                    <input type="radio" id="rated-3" name="rating" value="3">
+                                                                    <label for="rated-4"></label>
+                                                                    <input type="radio" id="rated-4" name="rating" value="4">
+                                                                    <label for="rated-5"></label>
+                                                                    <input type="radio" id="rated-5" name="rating" value="5" checked="checked">
+                                                            @endif
                                                             </p>
                                                         </div>
-                                                        <p class="comment-form-author">
-                                                            <label for="author">Name <span class="required">*</span></label>
-                                                            <input id="author" name="author" type="text" value="">
-                                                        </p>
-                                                        <p class="comment-form-email">
-                                                            <label for="email">Email <span class="required">*</span></label>
-                                                            <input id="email" name="email" type="email" value="" >
-                                                        </p>
                                                         <p class="comment-form-comment">
                                                             <label for="comment">Your review <span class="required">*</span>
                                                             </label>
+                                                            @if ($user_review)
+                                                            <textarea id="comment" name="comment" cols="45" rows="8">{{ $review->user_review }}</textarea>
+                                                            @else
                                                             <textarea id="comment" name="comment" cols="45" rows="8"></textarea>
+                                                            @endif
                                                         </p>
                                                         <p class="form-submit">
-                                                            <input name="submit" type="submit" id="submit" class="submit" value="Submit">
+                                                            <input name="submit" type="submit" id="submit" class="submit" value="Review">
                                                         </p>
                                                     </form>
 
