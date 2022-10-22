@@ -135,9 +135,10 @@
                                             <ol class="commentlist">
                                                 <li class="comment byuser comment-author-admin bypostauthor even thread-even depth-1" id="li-comment-20">
                                                     @foreach ($reviews as $review)
+                                                        {{-- @dd($review) --}}
                                                         <div id="comment-20" class="comment_container">
-                                                            @if ($review->image)
-                                                            <img alt="" src="{{ asset('storage/profile-images/'.$review->user->image) }}" height="80" width="80">
+                                                            @if ($review->user->image)
+                                                            <img alt="" src="{{ asset('storage/'.$review->user->image) }}" height="80" width="80">
                                                             @else
                                                             <img alt="" src="{{ asset('base-img/avatar.png') }}" height="80" width="80">
                                                             @endif
