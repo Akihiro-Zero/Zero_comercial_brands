@@ -143,7 +143,7 @@
                                                             @endif
                                                             <div class="comment-text">
                                                                 <div class="ratings">
-                                                                    @ for ($a = 1; $a <= $review->rating->stars_rated; $a++)
+                                                                    @for ($a = 1; $a <= $review->rating->stars_rated; $a++)
                                                                         <i class="fa fa-star checked"></i>
                                                                     @endfor
                                                                     @for ($b = $review->rating->stars_rated+1; $b <= 5; $b++)

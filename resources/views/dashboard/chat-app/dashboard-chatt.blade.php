@@ -18,7 +18,7 @@
                     @endif
                 <div class="details">
                 <span>
-                    {{ $user->firstname  . $user->lastname }}
+                    {{ $user->name }}
                 </span>
                 <p>
                     {{ $user->status }}
