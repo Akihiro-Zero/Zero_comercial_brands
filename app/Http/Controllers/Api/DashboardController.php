@@ -212,6 +212,10 @@ class DashboardController extends Controller
                     // return $product;
                     $validate['image'] = $request->file('image')->store('product-image/'.$user->name);
                 }
+                else
+                {
+                    $validate['image'] = $product->image;
+                }
                 $product->update($validate);
                 return response()->json([
                     'message' => 'Product updated succesfully',
@@ -300,24 +304,27 @@ class DashboardController extends Controller
         {
             return response()->json(['message' => 'You Are Not Admin']);
         }
-        $category = new Categories;
-        $category->name = $request->name;
-        $category->slug = Str::slug($request->name);
-        $category->description = $request->description;
-        $category->image = $request->image;
-        // if($request->hasFile('image'));
-        // {
-        //    $category = $request->file('image')->store('category-image');
-        // }
-        $category->save();
+        $validate = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'nullable',
+        ]);
+        $validate['slug'] = Str::slug($request->name);
+        // $validate->slug = Str::slug($request->name);
+        if($request->hasFile('image'))
+        {
+           $validate['image'] = $request->file('image')->store('category-image');
+        }
+        else{
+            $validate['image'] = "";
+        }
+        // dd($validate);
+        Categories::create($validate);
         return response()->json(['status' => 'Category aded']);
     }
 
     public function categoryUpdate(Request $request,$id)
     {
-        //
-        // return $request;
-        //
         $user = User::where('id',auth()->guard('api')->id())->first();
         if(!$user->hasRole('admin'))
         {
@@ -326,15 +333,22 @@ class DashboardController extends Controller
 
         $validate = $request->validate([
             'name' => 'nullable',
-            'slug' => 'nullable',
             'description' => 'nullable',
             'image' => 'nullable',
         ]);
-        // if($request->has('name'))
-        // {
-            //     $validate = $category->slug = ;
-            // }
         $category = Categories::find($id);
+        if($request->hasFile('image'))
+        {
+            if($category->image)
+            {
+            Storage::delete($category->image);
+            }
+            $validate['image'] = $request->file('image')->store('category-image');
+        }
+        else{
+            $validate['image'] = $category->image;
+        }
+        $validate['slug'] = Str::slug($request->name);
         $category->update($validate);
         return response()->json([
             'status' => 'category updated',
