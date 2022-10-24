@@ -102,6 +102,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('category-edit/{slug}',[CategoriesController::class,'edit']);
     Route::post('category-update/{id}',[CategoriesController::class,'update']);
+    Route::get('category-destroy/{id}',[CategoriesController::class,'destroy']);
 
     //Payment
     Route::get('order-midtrans',[PaymentController::class,'midtrans']);

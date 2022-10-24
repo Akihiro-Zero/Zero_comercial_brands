@@ -205,17 +205,17 @@ class DashboardController extends Controller
 
     public function Update(Request $request, $id)
     {
+        // return $request;
         $validate = $request->validate([
             'firstname' => 'nullable',
             'lastname' => 'nullable',
             'postcode' => 'nullable',
             'country' => 'nullable',
-            'adress' => 'required',
+            'adress' => 'nullable',
             'phone' => 'nullable',
             'about' => 'nullable',
             'image' => 'image|file|nullable',
             'city' => 'nullable'
-
 
         ]);
         if ($request->hasFile('image'))

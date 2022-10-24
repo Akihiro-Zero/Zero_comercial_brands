@@ -44,20 +44,61 @@ class DashboardController extends Controller
         $user = User::where('id',auth()->guard('api')->id())->first();
         if($user->hasRole('admin'))
         {
-            User::destroy($id);
-            return response()->json(['status' => 'user deleted']);
+
+            $delete = User::destroy($id);
+            if($delete)
+            {
+
+                return response()->json(['status' => 'user deleted']);
+            }
+            else{
+                return response()->json(['status' => 'user ga ada']);
+
+            }
+        }
+        else{
+            return response()->json(['status' => 'you are not admin']);
+
         }
     }
     public function userUpdate(Request $request)
     {
+        // return $request;
         $user = User::where('id',auth()->guard('api')->id())->first();
+        $id = $user->id;
         if($user)
         {
-            $user->update($request->all());
-            return response()->json([
-                'status' => 'succes',
-                'data' => $user
+            $validate = $request->validate([
+                'firstname' => 'nullable',
+                'lastname' => 'nullable',
+                'postcode' => 'nullable',
+                'country' => 'nullable',
+                'adress' => 'nullable',
+                'phone' => 'nullable',
+                'about' => 'nullable',
+                'image' => 'image|file|nullable',
+                'city' => 'nullable'
+
             ]);
+            $user = User::find($id);
+            // return $user;
+            if ($request->hasFile('image'))
+            {
+                // return $user;
+                if($user->image)
+                {
+                    Storage::delete($user->image);
+                }
+                $validate['image'] = $request->file('image')->store('profile-images');
+            }
+            $user->update($validate);
+            return response()->json(['message' => 'user updated',
+        'user' => $user]);
+            // $user->update($request->all());
+            // return response()->json([
+            //     'status' => 'succes',
+            //     'data' => $user
+            // ]);
         }
     }
 
@@ -120,6 +161,7 @@ class DashboardController extends Controller
      */
     public function productStore(Request $request)
     {
+        // return $request;
         $user = User::where('id',auth()->guard('api')->id())->first();
         $dataid = $user->id;
         if($user->hasRole(['admin','seller']))
@@ -127,7 +169,6 @@ class DashboardController extends Controller
             $validate = $request->validate([
                 "description" => "required",
                 "dimension" => "required",
-                "seller_id" => "required",
                 "cate_id" => "required",
                 "popular" => "nullable",
                 "status" => "nullable",
@@ -143,6 +184,7 @@ class DashboardController extends Controller
             {
                 $validate['image'] = $request->file('image')->store('product-image/'.$user->name);
             }
+            $validate['seller_id'] = $user->id;
             Product::create($validate);
             return response()->json(['status' => 'product succesfully added']);
         }
@@ -184,6 +226,7 @@ class DashboardController extends Controller
      */
     public function productUpdate(Request $request, $id)
     {
+        // return $request;
         $user = User::where('id',auth()->guard('api')->id())->first();
 
         if($user->hasRole(['admin','seller']))
@@ -242,18 +285,30 @@ class DashboardController extends Controller
     public function productDestroy($id)
     {
         $product = Product::find($id);
+        if(!$product)
+        {
+            return response()->json(['status' => 'Product Not Found']);
+
+        }
         $user = User::where('id',auth()->guard('api')->id())->first();
         if($user->hasRole(['admin','seller']))
         {
             if($product->seller_id == $user->id)
             {
-                return $id;
+                // return $id;
                 if($product['image'] == true)
                 {
                     Storage::delete($product->image);
                 }
-                Product::destroy($id);
-                return response()->json(['status' => 'Product Deleted']);
+                $delete = Product::destroy($id);
+                if($delete)
+                {
+                    return response()->json(['status' => 'Product Deleted']);
+                }
+                else{
+                    return response()->json(['status' => 'Product Gak ada']);
+
+                }
             }
             else
             {
@@ -313,7 +368,7 @@ class DashboardController extends Controller
         // $validate->slug = Str::slug($request->name);
         if($request->hasFile('image'))
         {
-           $validate['image'] = $request->file('image')->store('category-image');
+           $validate['image'] = $request->file('image')->store('categories-image');
         }
         else{
             $validate['image'] = "";
@@ -343,7 +398,7 @@ class DashboardController extends Controller
             {
             Storage::delete($category->image);
             }
-            $validate['image'] = $request->file('image')->store('category-image');
+            $validate['image'] = $request->file('image')->store('categories-image');
         }
         else{
             $validate['image'] = $category->image;
@@ -363,7 +418,16 @@ class DashboardController extends Controller
         {
             return response()->json(['message' => 'You Are Not Admin']);
         }
-        Categories::destroy($id);
-        return response()->json(['status' => 'Categories Deleted']);
+        $delete = Categories::destroy($id);
+
+        if($delete)
+        {
+
+            return response()->json(['status' => 'Categories Deleted']);
+        }
+        else{
+
+            return response()->json(['status' => 'Categories Gak ada']);
+        }
     }
 }

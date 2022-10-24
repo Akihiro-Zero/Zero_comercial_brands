@@ -45,7 +45,7 @@ Route::controller(DashboardController::class)->group(function(){
     Route::get('userApi-list','userList');
     Route::delete('userApi-delete/{id}','userDelete');
     //Api User
-    Route::patch('userApi-update','userUpdate');
+    Route::post('userApi-update','userUpdate');
     Route::patch('userApi-update-seller','userToSeller');
 
     //Api Product

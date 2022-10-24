@@ -12,9 +12,7 @@
                 <tr>
                     <td>Number</td>
                     <td>Name</td>
-                    <td>Name</td>
-                    <td>Name</td>
-                    <td>Name</td>
+                    <td>Unique Id</td>
                     <td>Email</td>
                     <td>Image</td>
                     <td>Action</td>
@@ -28,9 +26,7 @@
                 <tr>
                     <td>{{ $a++ }}</td>
                     <td>{{ $items->name }}</td>
-                    <td>{{ $items->name }}</td>
-                    <td>{{ $items->name }}</td>
-                    <td>{{ $items->name }}</td>
+                    <td>{{ $items->unique_id }}</td>
                     <td>{{ $items->email }}</td>
                     <td>
                         @if ($items->image == true)

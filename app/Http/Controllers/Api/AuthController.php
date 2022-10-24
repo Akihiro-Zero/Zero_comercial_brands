@@ -55,6 +55,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'unique_id' => rand()
         ]);
         $user->assignRole('user');
         $token = auth()->guard('api')->login($user);
