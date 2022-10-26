@@ -23,7 +23,14 @@ class ComercialController extends Controller
     {
         $product = Product::where('slug',$slug)->first();
         $ratings = Ratings::where('prod_id',$product->id)->get();
-        $rating_sum = Ratings::where('prod_id',$product->id)->sum('stars_rated');
+        $rating_avg = Ratings::where('prod_id',$product->id)->sum('stars_rated');
+        if($rating_avg)
+        {
+            $rating_sum = $rating_avg;
+        }
+        else{
+            $rating_sum = 0;
+        }
         $user_rating = Ratings::where('prod_id',$product->id)->where('user_id',Auth::id())->first();
         $reviews = Reviews::where('prod_id',$product->id)->get();
         $user_review= Reviews::where('prod_id',$product->id)->where('user_id',Auth::id())->first();
